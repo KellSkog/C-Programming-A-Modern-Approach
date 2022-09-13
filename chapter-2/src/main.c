@@ -1,16 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define __USE_MISC // defines M_PI...
-#include <math.h>
 #include <string.h>
 
 #include "constants.h"
+#include "book.h"
 
-int dimensionalWeight(int volume)
-{
-    // Assure division is rounded up
-    return (volume + (ALLOWED_CU_INCH_PER_POUND - 1)) / ALLOWED_CU_INCH_PER_POUND;
-}
 void calcWeight(int argc, char **argv)
 {
     int height, length, width;
@@ -35,10 +29,6 @@ void calcWeight(int argc, char **argv)
     printf("Dimensional weight: %d\n", dimensionalWeight(volume));
 }
 
-float farenheitToCelisius(float farenheit_temp)
-{
-    return (farenheit_temp - FARENHEIT_FREEZING_PT) * FARENHEIT_CELSIUS_SCALE;
-}
 void calcTemp(int argc, char **argv)
 {
     float farenheit;
@@ -83,10 +73,6 @@ void programmingProjects_2_1(void)
     }
 }
 
-float calcSphereVol(float radius)
-{
-    return radius * radius * radius * 4.0f * M_PI / 3.0f;
-}
 void programmingProjects_2_2(void)
 {
     printf("Enter a radius: ");
@@ -130,17 +116,27 @@ void printingDate_5_3(void)
     printf("20%d.\n", year);
 }
 
+void programmingProjects_5_3_1(void)
+{
+    int num;
+    printf("Enter an integer ");
+    scanf("%d", &num);
+    printf("The number %d has %d digits\n", num, numDigitCount(num));
+}
+
 int main(int argc, char **argv)
 {
-    printf("To %f\n, or not C: that is the question.\n", M_PI);
+    printf("To C, or not C: that is the question.\n");
     /*calcWeight(argc, argv);
     calcTemp(argc, argv);
     programmingProjects_2_1();
     programmingProjects_2_2();
+    printingDate_5_3();
+    programmingProjects_5_3_1();
      */
+
     (void)argc;
     (void)argv;
-    printingDate_5_3();
 
     return 0;
 }
