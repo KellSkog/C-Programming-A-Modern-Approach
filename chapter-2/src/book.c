@@ -29,3 +29,20 @@ int numDigitCount(int num)
     }
     return digitCount;
 }
+
+void to12h(Time12h *time)
+{
+    if (time->hour >= 13)
+    {
+        time->ampm = PM;
+    }
+    else
+    {
+        time->ampm = AM;
+    }
+    time->hour -= 12;
+    if (time->hour == 0)
+    {
+        time->hour = 12;
+    }
+}

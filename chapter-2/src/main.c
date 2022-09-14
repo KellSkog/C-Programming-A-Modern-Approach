@@ -124,6 +124,22 @@ void programmingProjects_5_3_1(void)
     printf("The number %d has %d digits\n", num, numDigitCount(num));
 }
 
+void oddsquare(void)
+{
+    int i, n, square, odd;
+    printf("Enter number of entries: ");
+    scanf("%d", &n);
+
+    i = 1;
+    odd = 3;
+    for (square = 1; i <= n; odd += 2)
+    {
+        printf("%10d%10d\n", i, square);
+        ++i;
+        square += odd;
+    }
+}
+
 int main(int argc, char **argv)
 {
     printf("To C, or not C: that is the question.\n");
@@ -134,7 +150,7 @@ int main(int argc, char **argv)
     printingDate_5_3();
     programmingProjects_5_3_1();
      */
-
+    oddsquare();
     (void)argc;
     (void)argv;
 
