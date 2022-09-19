@@ -1,5 +1,6 @@
 // #define __USE_MISC 1 // defines M_PI...
 // #include <math.h>
+#include <stdio.h>
 #include "constants.h"
 #include "book.h"
 
@@ -44,5 +45,35 @@ void to12h(Time12h *time)
     if (time->hour == 0)
     {
         time->hour = 12;
+    }
+}
+
+void checkbookHandlecommand(int *account, Command cmd)
+{
+    int input;
+    if (cmd > EXIT)
+        cmd = EXIT;
+    switch (cmd)
+    {
+    case CLEAR:
+        *account = 0;
+        break;
+    case CREDIT:
+        printf("Credit: ");
+        scanf("%d", &input);
+        *account += input;
+        break;
+    case DEBIT:
+        printf("Dedit: ");
+        scanf("%d", &input);
+        *account -= input;
+        break;
+    case BALANCE:
+        printf("Balance: %d\n", *account);
+        break;
+    case EXIT:
+        break;
+    default:
+        printf("Command %d\n", cmd);
     }
 }

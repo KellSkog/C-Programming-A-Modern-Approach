@@ -20,4 +20,14 @@ typedef struct
 // Changes time from 24h format to 12h
 void to12h(Time12h *time);
 
+typedef enum
+{
+    CLEAR = 0,
+    CREDIT,
+    DEBIT,
+    BALANCE,
+    EXIT
+} Command;
+void checkbookHandlecommand(int *account, Command command);
+
 #endif
