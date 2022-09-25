@@ -166,6 +166,18 @@ void gcc_vla() {
   int len = 2;
   char data[len][len];
   struct entry q = tester(len, data); // q is copied!!
+  (void)q;
+}
+void exercice_6_3_13() {
+  int m = 8;
+  for (int n = 0; m > 0; n++)
+    m /= 2;
+  printf("%d\n", m);
+
+  m = 8;
+  for (int n = 0; m > 0; n++, m /= 2)
+    ;
+  printf("%d\n", m);
 }
 int main(int argc, char **argv) {
   printf("To C, or not C: that is the question.\n");
@@ -179,8 +191,9 @@ int main(int argc, char **argv) {
   checkBook();
   reddit_u_No_Kitchen_9597();
   remaindr();
-   */
   gcc_vla();
+   */
+  exercice_6_3_13();
   (void)argc;
   (void)argv;
 

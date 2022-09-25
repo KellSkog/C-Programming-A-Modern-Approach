@@ -1,0 +1,19 @@
+//MULTISOFT
+fun (n)
+    if n == 0 return 2
+    else if n == 1 return 1
+else return fun (n - 1) + fun (n - 2)
+
+S = ''
+for (i = 1; i < 6; i++) 
+    s += toString (fun (i))
+
+goto_url('www.multisoft.se/' + s)
+// www.multisoft.se/134711
+/*
+  -> fun(0) = 2 -> 2
+1 -> fun(1) = 1 -> 1
+2 -> fun(2) = (fun(1) = 1) + (fun(0) = 2) -> 3
+3 -> fun(3) = (fun(2) = 3) + (fun(1) = 1) -> 4
+4 -> fun(4) = (fun(3) = 4) + (fun(2) = 3) -> 7
+5 -> fun(5) = (fun(4) = 7) + (fun(3) = 4) -> 11
