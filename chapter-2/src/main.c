@@ -8,7 +8,7 @@
 void calcWeight(int argc, char **argv) {
   int height, length, width;
   int volume;
-  if (argc == 4) // Three arguments
+  if (argc == 4)  // Three arguments
   {
     // TODO: Prefere stol
     height = atoi(argv[1]);
@@ -28,15 +28,14 @@ void calcWeight(int argc, char **argv) {
 
 void calcTemp(int argc, char **argv) {
   float farenheit;
-  if (argc == 2) // Three arguments
+  if (argc == 2)  // Three arguments
   {
     farenheit = atof(argv[1]);
   } else {
     printf("Farenheit temperature: ");
     scanf("%f", &farenheit);
   }
-  printf("Farenheit %.1f -> Celsius: %.1f\n", farenheit,
-         farenheitToCelisius(farenheit));
+  printf("Farenheit %.1f -> Celsius: %.1f\n", farenheit, farenheitToCelisius(farenheit));
 }
 
 void printPrelude(int row) {
@@ -67,29 +66,27 @@ void programmingProjects_2_2(void) {
   printf("Enter a radius: ");
   float radius;
   scanf("%f", &radius);
-  printf("A spere with radius: %.3f, has the volume %.3f\n", radius,
-         calcSphereVol(radius));
+  printf("A spere with radius: %.3f, has the volume %.3f\n", radius, calcSphereVol(radius));
 }
 
 void printingDate_5_3(void) {
-  const char *months[] = {"", // No month 0
-                          "January",   "February", "Mars",     "April",
-                          "May",       "June",     "July",     "August",
-                          "September", "October",  "November", "December"};
+  const char *months[] = {"",  // No month 0
+                          "January", "February", "Mars",      "April",   "May",      "June",
+                          "July",    "August",   "September", "October", "November", "December"};
   printf("Enter date (mm/dd/yy): ");
   int day, month, year;
   scanf("%d/%d/%d", &month, &day, &year);
   printf("Dated this %d", day);
-  switch (day) { // "st", "rd", "th"
-  case 21:
-  case 31:
-    printf("st ");
-    break;
-  case 23:
-    printf("rd ");
-    break;
-  default:
-    printf("th ");
+  switch (day) {  // "st", "rd", "th"
+    case 21:
+    case 31:
+      printf("st ");
+      break;
+    case 23:
+      printf("rd ");
+      break;
+    default:
+      printf("th ");
   }
   printf("day of %s. ", months[month]);
   printf("20%d.\n", year);
@@ -139,8 +136,7 @@ void reddit_u_No_Kitchen_9597() {
       printf("i=%d, j=%d, i/j=%d, imodj=%d\n", i, j, i / j, i % j);
       j++;
     }
-    if (j > i / j)
-      prime = i;
+    if (j > i / j) prime = i;
   }
   printf("prime: %d\n", prime);
 }
@@ -165,13 +161,12 @@ void gcc_vla() {
    * You can also use variable-length arrays as arguments to functions: */
   int len = 2;
   char data[len][len];
-  struct entry q = tester(len, data); // q is copied!!
+  struct entry q = tester(len, data);  // q is copied!!
   (void)q;
 }
 void exercice_6_3_13() {
   int m = 8;
-  for (int n = 0; m > 0; n++)
-    m /= 2;
+  for (int n = 0; m > 0; n++) m /= 2;
   printf("%d\n", m);
 
   m = 8;
@@ -179,23 +174,153 @@ void exercice_6_3_13() {
     ;
   printf("%d\n", m);
 }
-int main(int argc, char **argv) {
-  printf("To C, or not C: that is the question.\n");
-  /*calcWeight(argc, argv);
-  calcTemp(argc, argv);
-  programmingProjects_2_1();
-  programmingProjects_2_2();
-  printingDate_5_3();
-  programmingProjects_5_3_1();
-  oddsquare();
-  checkBook();
-  reddit_u_No_Kitchen_9597();
-  remaindr();
-  gcc_vla();
+void programmingProjects_6_5_1() {
+  float num;
+  float max = 0.0, min = __FLT_MAX__;
+  int cnt = 0;
+  do {
+    printf("Enter a number: ");
+    scanf("%f", &num);
+    if (num < min) min = num;
+    if (num > max) max = num;
+    if (num > 0) ++cnt;
+  } while (num > 0);
+  printf("Of %d nums max was %f, min %f", cnt, max, min);
+}
+int GCD(int m, int n) {
+  // Euclids
+  if (n == 0) return m;
+  return GCD(n, m % n);
+}
+void programmingProjects_6_5_2() {
+  int alpha, beta;
+  printf("Enter two integers: ");
+  scanf("%d%d", &alpha, &beta);
+  printf("GCD is: %d\n", GCD(alpha, beta));
+}
+void programmingProjects_6_5_8() {
+  printf("Enter days in month: ");
+  int daysInMonth;
+  scanf("%d", &daysInMonth);
+  printf("Enter starting day ow week(1=Mon): ");
+  int startingDay;
+  scanf("%d", &startingDay);
+  int dayOfWeek = 1;
+  do {
+    if (dayOfWeek < startingDay) {
+      printf("   ");
+    } else {
+      printf("%3d", dayOfWeek);
+    }
+    if (dayOfWeek % 7 == 0) {
+      printf("\n");
+    }
+  } while (++dayOfWeek <= daysInMonth);
+  printf("\n");
+}
+void designatedInitializers() {
+#define size 9
+  // int a[size] = {-1, 1, 2, [2] = 2, [3] = 3, [5] = 5, [7] = 7}; error:
+  // initialized field overwritten [-Werror=override-init]
+  // int a[size] = {[2] = 2, -1, 1, [5] = 5, [3] = 3, [7] = 7}; error:
+  // initialized field overwritten [-Werror=override-init]
+  int a[size] = {-1, 1, [2] = 2, [5] = 5, [3] = 3, [7] = 7, -8};
+  printf("%d", a[0]);
+  for (int i = 1; i < size; ++i) {
+    printf(", %d", a[i]);
+  }
+  printf("\n");
+}
+void checkingNumberForRepeatedDigit() {
+  /* Page 166/191 Ch. 8.1 Arrays, a flag is set to true if corresponding digit is repeated
+   * Number of digits in input is limited to 32,
    */
-  exercice_6_3_13();
-  (void)argc;
-  (void)argv;
+
+  printf("Enter a number: ");
+  int digits[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};  // Initialize all ditits -1 represents not entered (yet)
+  int digit;
+  digit = getchar();
+  while (digit != '\n' && digit != EOF) {
+    digits[digit - '0']++;
+    digit = getchar();
+  }
+  printf("Repeated digits ");
+  for (int i = 0; i <= 9; ++i) {
+    if (digits[i] > 0) {
+      printf("%d", i);
+    }
+  }
+  printf("\n");
+}
+int main(int argc, char **argv) {
+  // (void)argv;
+  if (argc == 2) {
+    int func = atoi(argv[1]);
+    switch (func) {
+      case 1:
+        calcWeight(argc, argv);
+        break;
+      case 2:
+        calcTemp(argc, argv);
+        break;
+      case 3:
+        programmingProjects_2_1();
+        break;
+      case 4:
+        programmingProjects_2_2();
+        break;
+      case 5:
+        printingDate_5_3();
+        break;
+      case 6:
+        programmingProjects_5_3_1();
+        break;
+      case 7:
+        oddsquare();
+        break;
+      case 8:
+        checkBook();
+        break;
+      case 9:
+        reddit_u_No_Kitchen_9597();
+        break;
+      case 10:
+        remaindr();
+        break;
+      case 11:
+        gcc_vla();
+        break;
+      case 12:
+        exercice_6_3_13();
+        break;
+      case 13:
+        programmingProjects_6_5_1();
+        break;
+      case 14:
+        programmingProjects_6_5_2();
+        break;
+      case 15:
+        programmingProjects_6_5_8();
+        break;
+      case 16:
+        designatedInitializers();
+        break;
+      case 17:
+        checkingNumberForRepeatedDigit();
+        break;
+      default:
+        argc = 1;
+    }
+  }
+  if (argc == 1) {
+    printf("To C, or not C: that is the question.\n");
+    printf("Size of double %ld\n", sizeof(0.0));
+    printf("Size of float %ld\n", sizeof(0.0F));
+    printf("Size of long long %ld\n", sizeof(0LL));
+    printf("Size of long %ld\n", sizeof(0L));
+    printf("Size of int %ld\n", sizeof(0));
+    printf("Size of char %ld\n", sizeof('S'));
+  }
 
   return 0;
 }
