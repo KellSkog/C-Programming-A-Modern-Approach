@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "book.h"
 #include "constants.h"
@@ -252,6 +253,36 @@ void checkingNumberForRepeatedDigit() {
   }
   printf("\n");
 }
+/** Dealing a hand of cards
+ * Cards have suit (clubs, diamonds, hearts, spades) and rank (2..10,jack, queen, king, ace)
+ */
+typedef enum { NONE, CLUBS, DIAMONDS, HEARTS, SPADES } eSuit;
+typedef enum { JACK, QUEEN, KING, ACE } eRank;
+typedef struct {
+  eSuit suit;
+  eRank rank;
+} Card_str;
+#define DECKSIZE 3
+#define HANDSIZE 2
+void dealHand() {
+  const char *suitNames[] = {"", "CLUBS", "DIAMONDS", "HEARTS", "SPADES"};
+  const char *rankNames[] = {"JACK", "QUEEN", "KING", "ACE"};
+  Card_str deck[DECKSIZE] = {{CLUBS, JACK}, {DIAMONDS, ACE}, {HEARTS, QUEEN}};
+  srand(time(NULL));
+
+  Card_str hand[HANDSIZE];
+  for (int i = 0; i < 2; ++i) {
+    int card = rand() % HANDSIZE;
+    while (deck[card].suit == NONE) {  // #define NULL ((void *)0)
+      card = rand() % HANDSIZE;
+    }
+    hand[i] = deck[card];
+    deck[card].suit = NONE;  // Remove card from deck!
+  }
+  for (int i = 0; i < HANDSIZE; ++i) {
+    printf("%s of %s\n", rankNames[hand[i].rank], suitNames[hand[i].suit]);
+  }
+}
 int main(int argc, char **argv) {
   // (void)argv;
   if (argc == 2) {
@@ -307,6 +338,9 @@ int main(int argc, char **argv) {
         break;
       case 17:
         checkingNumberForRepeatedDigit();
+        break;
+      case 18:
+        dealHand();
         break;
       default:
         argc = 1;
