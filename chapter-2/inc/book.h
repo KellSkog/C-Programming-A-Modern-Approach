@@ -1,10 +1,12 @@
 #ifndef CHAPTER_2_BOOK
 #define CHAPTER_2_BOOK
 
+#include <stdlib.h>  // qsort
 int dimensionalWeight(int volume);
 float farenheitToCelisius(float farenheit_temp);
 float calcSphereVol(float radius);
 int numDigitCount(int num);
+void quicksortInt(int a[], int low, int high);
 
 typedef enum { AM, PM } MERIDIAN;
 typedef struct {

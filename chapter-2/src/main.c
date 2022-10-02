@@ -1,5 +1,8 @@
+/**
+ * K N King: C programming a modern approach, second edition
+ */
 #include <stdio.h>
-#include <stdlib.h>
+// #include <stdlib.h> //Included in header for Unity to have access to qsort
 #include <string.h>
 #include <time.h>
 
@@ -283,8 +286,42 @@ void dealHand() {
     printf("%s of %s\n", rankNames[hand[i].rank], suitNames[hand[i].suit]);
   }
 }
+/** Use array of exercise 8 to calculate average temp over a month */
+#define DAYS_IN_MONTH 30
+#define HORS_IN_DAY 24
+#define SCALE (RAND_MAX / 20.0F)
+void chapter8Exercise9() {
+  float temperature_readings[DAYS_IN_MONTH][HORS_IN_DAY];
+  float sum = 0.0F;
+  srand(time(NULL));
+  for (int day = 0; day < DAYS_IN_MONTH; ++day) {
+    for (int hour = 0; hour < HORS_IN_DAY; ++hour) {
+      float reading = (rand() - (RAND_MAX / 2)) / SCALE;
+      temperature_readings[day][hour] = reading;
+      sum += reading;
+    }
+  }
+  printf("Average: %2.2f\n", sum / (DAYS_IN_MONTH * HORS_IN_DAY));
+  for (int day = 0; day < DAYS_IN_MONTH; ++day) {
+    printf("Temp[%d][12] = %2.2f\n", day, temperature_readings[day][12]);
+  }
+  printf("Scale %f\n", SCALE);
+}
+
+void chapter9_6Quicksort() {
+  int arr[] = {5, 4, 3, 10, 2, 1};
+  const int arr_size = sizeof(arr) / sizeof(arr[0]);
+  quicksortInt(arr, 0, arr_size - 1);
+}
+#define A_IgnorePedantic _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wpedantic\"")
+#define A_Pop _Pragma("GCC diagnostic pop")
+
 int main(int argc, char **argv) {
   // (void)argv;
+  /*
+  int z[] = {0, 1, 2, [0] = 42, 99}; // error: initialized field overwritten [-Werror=override-init]
+  The book posits that this is valid, GCC does not agree...
+  */
   if (argc == 2) {
     int func = atoi(argv[1]);
     switch (func) {
@@ -342,19 +379,34 @@ int main(int argc, char **argv) {
       case 18:
         dealHand();
         break;
+      case 19:
+        chapter8Exercise9();
+        break;
+      case 20:
+        chapter9_6Quicksort();
+        break;
       default:
         argc = 1;
     }
   }
+
   if (argc == 1) {
-    printf("To C, or not C: that is the question.\n");
+    printf("To C, or not C: that is the question. %ld\n", __STDC_VERSION__);
     printf("Size of double %ld\n", sizeof(0.0));
     printf("Size of float %ld\n", sizeof(0.0F));
     printf("Size of long long %ld\n", sizeof(0LL));
     printf("Size of long %ld\n", sizeof(0L));
     printf("Size of int %ld\n", sizeof(0));
     printf("Size of char %ld\n", sizeof('S'));
-  }
 
+    // Address of an address is the same address
+    int a[] = {0};
+    printf("Adr of a: %p\nAdr of adr of a: %p\n", (void *)a, (void *)&a);
+    A_IgnorePedantic;
+  label:;
+    printf("Adr of label: %p\n", (void *)&&label);  // error: taking the address of a label is non-standard [-Wpedantic]
+    A_Pop;
+  }
+  // exit(EXIT_SUCCESS);
   return 0;
 }
