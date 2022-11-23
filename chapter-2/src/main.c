@@ -313,8 +313,8 @@ void chapter9_6Quicksort() {
   const int arr_size = sizeof(arr) / sizeof(arr[0]);
   quicksortInt(arr, 0, arr_size - 1);
 }
-#define A_IgnorePedantic _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wpedantic\"")
-#define A_Pop _Pragma("GCC diagnostic pop")
+#define IgnorePedantic _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wpedantic\"")
+#define RestorePedantic _Pragma("GCC diagnostic pop")
 
 int main(int argc, char **argv) {
   // (void)argv;
@@ -389,9 +389,13 @@ int main(int argc, char **argv) {
         argc = 1;
     }
   }
-
+  const int delta = 'a' - 'A';
   if (argc == 1) {
-    printf("To C, or not C: that is the question. %ld\n", __STDC_VERSION__);
+    // msg is not a pointer to const string in program
+    // It is a char array on the stack initialized by a const string in program
+    char msg[] = "To C, or not C: that is the question. ";
+    msg[13] += delta;
+    printf("%s, %p, %lx, %ld\n", msg, msg, (unsigned long)&delta, __STDC_VERSION__);
     printf("Size of double %ld\n", sizeof(0.0));
     printf("Size of float %ld\n", sizeof(0.0F));
     printf("Size of long long %ld\n", sizeof(0LL));
@@ -402,11 +406,11 @@ int main(int argc, char **argv) {
     // Address of an address is the same address
     int a[] = {0};
     printf("Adr of a: %p\nAdr of adr of a: %p\n", (void *)a, (void *)&a);
-    A_IgnorePedantic;
+    IgnorePedantic;
   label:;
-    printf("Adr of label: %p\n", (void *)&&label);  // error: taking the address of a label is non-standard [-Wpedantic]
-    A_Pop;
+    printf("Adr of label: %p\n", (void *)&&label);  // error: taking the address of a label is non-standard
+    RestorePedantic;
   }
-  // exit(EXIT_SUCCESS);
+  exit(EXIT_SUCCESS);
   return 0;
 }
